@@ -1,8 +1,11 @@
 {
   "name": "ingector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "iNGector is a Dependency Injection module inspired by the AngularJS's DI",
   "main": "iNGector.js",
+  "files": [
+    "iNGector.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Codifica208/iNGector.git"
