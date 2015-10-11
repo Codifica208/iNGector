@@ -56,7 +56,12 @@ iNGector = ->
 		new Promise (resolve, reject) ->
 			_promises = []
 			for block in _initBlocks
-				_promises.push block.func.apply block, (_provideBlocks[d].result for d in block.dependencies)
+				_dependencies = []
+				for d in block.dependencies
+					throw "Dependency not found (#{d})"
+					_dependencies.push _provideBlocks[d].result
+				
+				_promises.push block.func.apply block, _dependencies
 
 			Promise
 				.all _promises
@@ -90,23 +95,27 @@ iNGector = ->
 		_provideBlocks[name].result
 
 	@start = ->
-		do _self.checkInitialization
-		throw '[iNGector] Start already called!' if _startCalled
+		_checkPromise = new Promise (resolve, reject) ->
+			do _self.checkInitialization
+			throw '[iNGector] Start already called!' if _startCalled
+			do resolve
 		
-		_startCalled = yes
-		_initPromise = do Promise.resolve
-		_initPromise = do _self.preInit if _self.preInit?
+		_checkPromise.then ->
+			_startCalled = yes
+		
+			_initPromise = do Promise.resolve 
+			_initPromise = do _self.preInit if _self.preInit?
 
-		_initPromise
-			.then _executeProvideBlocks
-			.catch (error) ->
-				console.log "[iNGector] Error runnning configuration blocks: \r\n#{error}"
-			.then _executeInitBlocks
-			.catch (error) ->
-				console.log "[iNGector] Error running init blocks: \r\n#{error}"
-			.then ->
-				_initialized = yes
-				_self
+			_initPromise
+				.then _executeProvideBlocks
+				.catch (error) ->
+					Promise.reject if error.startsWith '[iNGector]' then error else "[iNGector] Error running configuration blocks: \r\n#{error}"
+				.then _executeInitBlocks
+				.catch (error) ->
+					Promise.reject if error.startsWith '[iNGector]' then error else "[iNGector] Error running init blocks: \r\n#{error}"
+				.then ->
+					_initialized = yes
+					_self
 
 	_self
 
@@ -115,7 +124,7 @@ if window?
 else
 	fs = require 'fs'
 
-	module.exports = do ->
+	module.exports = ->
 		_baseDir = ''
 		_di = new iNGector
 
@@ -166,6 +175,6 @@ else
 
 		iNGector.prototype.preInit = ->
 			_loadPromise.catch (error) ->
-				console.log "[iNGector] Error loading files: \r\n#{error}"
+				Promise.reject "[iNGector] Error loading files: \r\n#{error}"
 
 		_di
