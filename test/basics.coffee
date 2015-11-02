@@ -31,6 +31,20 @@ describe 'Dependency chain', ->
 				do done
 			.catch done
 
+	it 'Should load module in another file', (done) ->
+		_di = do di
+		_di
+			.setBaseDir "#{__dirname}/mocks"
+			.loadFiles './some-module'
+			.provide 'A', ->
+				do Promise.resolve
+			.start()
+			.then ->
+				_di.resolve('SOME-MODULE').name.should.be.exactly 'some-module'
+				
+				do done
+			.catch done
+
 	it 'Should reject with "Dependency not found" exception when a config dependency is not found', (done) ->
 		_di = do di
 		_di

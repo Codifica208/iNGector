@@ -83,7 +83,7 @@
     };
     _executeInitBlocks = function() {
       return new Promise(function(resolve, reject) {
-        var _dependencies, _promises, block, d, k, l, len, len1, ref;
+        var _dependencies, _dependency, _promises, block, d, k, l, len, len1, ref;
         _promises = [];
         for (k = 0, len = _initBlocks.length; k < len; k++) {
           block = _initBlocks[k];
@@ -91,8 +91,11 @@
           ref = block.dependencies;
           for (l = 0, len1 = ref.length; l < len1; l++) {
             d = ref[l];
-            throw "Dependency not found (" + d + ")";
-            _dependencies.push(_provideBlocks[d].result);
+            _dependency = _provideBlocks[d];
+            if (_dependency == null) {
+              throw "Dependency not found (" + d + ")";
+            }
+            _dependencies.push(_dependency.result);
           }
           _promises.push(block.func.apply(block, _dependencies));
         }

@@ -58,8 +58,9 @@ iNGector = ->
 			for block in _initBlocks
 				_dependencies = []
 				for d in block.dependencies
-					throw "Dependency not found (#{d})"
-					_dependencies.push _provideBlocks[d].result
+					_dependency = _provideBlocks[d]
+					throw "Dependency not found (#{d})" if not _dependency?
+					_dependencies.push _dependency.result
 				
 				_promises.push block.func.apply block, _dependencies
 
