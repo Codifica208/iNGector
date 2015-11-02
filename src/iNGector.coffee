@@ -173,7 +173,7 @@ else
 
 			_di
 
-		iNGector.prototype.preInit = ->
+		_di.preInit = ->
 			_loadPromise.catch (error) ->
 				Promise.reject "[iNGector] Error loading files: \r\n#{error}"
 
