@@ -154,9 +154,9 @@
           _initPromise = _self.preInit();
         }
         return _initPromise.then(_executeProvideBlocks)["catch"](function(error) {
-          return Promise.reject(error.startsWith('[iNGector]') ? error : "[iNGector] Error running configuration blocks: \r\n" + error);
+          return Promise.reject((typeof error.startsWith === "function" ? error.startsWith('[iNGector]') : void 0) ? error : "[iNGector] Error running configuration blocks: \r\n" + error);
         }).then(_executeInitBlocks)["catch"](function(error) {
-          return Promise.reject(error.startsWith('[iNGector]') ? error : "[iNGector] Error running init blocks: \r\n" + error);
+          return Promise.reject((typeof error.startsWith === "function" ? error.startsWith('[iNGector]') : void 0) ? error : "[iNGector] Error running init blocks: \r\n" + error);
         }).then(function() {
           _initialized = true;
           return _self;
