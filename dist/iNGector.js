@@ -154,9 +154,9 @@
           _initPromise = _self.preInit();
         }
         return _initPromise.then(_executeProvideBlocks)["catch"](function(error) {
-          return Promise.reject((typeof error.startsWith === "function" ? error.startsWith('[iNGector]') : void 0) ? error : "[iNGector] Error running configuration blocks: \r\n" + error.stack);
+          return Promise.reject((typeof error.startsWith === "function" ? error.startsWith('[iNGector]') : void 0) ? error : "[iNGector] Error running configuration blocks: \r\n" + error + " \r\n" + error.stack);
         }).then(_executeInitBlocks)["catch"](function(error) {
-          return Promise.reject((typeof error.startsWith === "function" ? error.startsWith('[iNGector]') : void 0) ? error : "[iNGector] Error running init blocks: \r\n" + error.stack);
+          return Promise.reject((typeof error.startsWith === "function" ? error.startsWith('[iNGector]') : void 0) ? error : "[iNGector] Error running init blocks: \r\n" + error + " \r\n" + error.stack);
         }).then(function() {
           _initialized = true;
           return _self;
@@ -247,7 +247,7 @@
       };
       _di.preInit = function() {
         return _loadPromise["catch"](function(error) {
-          return Promise.reject("[iNGector] Error loading files: \r\n" + error.stack);
+          return Promise.reject("[iNGector] Error loading files: \r\n" + error + " \r\n" + error.stack);
         });
       };
       return _di;
