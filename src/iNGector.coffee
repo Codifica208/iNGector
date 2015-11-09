@@ -110,10 +110,10 @@ iNGector = ->
 			_initPromise
 				.then _executeProvideBlocks
 				.catch (error) ->
-					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running configuration blocks: \r\n#{error}"
+					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running configuration blocks: \r\n#{error.stack}"
 				.then _executeInitBlocks
 				.catch (error) ->
-					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running init blocks: \r\n#{error}"
+					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running init blocks: \r\n#{error.stack}"
 				.then ->
 					_initialized = yes
 					_self
@@ -176,6 +176,6 @@ else
 
 		_di.preInit = ->
 			_loadPromise.catch (error) ->
-				Promise.reject "[iNGector] Error loading files: \r\n#{error}"
+				Promise.reject "[iNGector] Error loading files: \r\n#{error.stack}"
 
 		_di
