@@ -135,6 +135,9 @@
       if (!_initialized) {
         throw "[iNGector] Cannot get " + name + ". iNGector is not initialized yet!";
       }
+      if (!_provideBlocks[name]) {
+        throw "[iNGector] Block " + name + " not provided!";
+      }
       return _provideBlocks[name].result;
     };
     this.start = function() {

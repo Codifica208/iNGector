@@ -92,6 +92,7 @@ iNGector = ->
 
 	@resolve = (name) ->
 		throw "[iNGector] Cannot get #{name}. iNGector is not initialized yet!" if not _initialized
+		throw "[iNGector] Block #{name} not provided!" if not _provideBlocks[name]
 		
 		_provideBlocks[name].result
 
