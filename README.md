@@ -247,19 +247,19 @@ This method is created only when executing in Node.js. It tells to core to load 
 ## Error handling
 And last but not least, iNGector throws exceptions with the following messages:
 
-	- **"[iNGector] Error running provide blocks: [ERROR]"**. Occurs whenever an Promise catches and error during ChainSolve Phase or ExecuteProvideBlocks Phase.
+- **"[iNGector] Error running provide blocks: [ERROR]"**. Occurs whenever an Promise catches and error during ChainSolve Phase or ExecuteProvideBlocks Phase.
 
-	- **"[iNGector] Error running init blocks: [ERROR]"**. Occurs whenever an Promise catches and error during ExecuteProvideBlocks Phase.
+- **"[iNGector] Error running init blocks: [ERROR]"**. Occurs whenever an Promise catches and error during ExecuteProvideBlocks Phase.
 
-	- **"[iNGector] Already initialized!"**. Occurs when you:
-		- call PROVIDE, INIT or START methods after initialization.
-		- call LOADFILES or LOADDIRS methods after initialization. (node only)
+- **"[iNGector] Already initialized!"**. Occurs when you:
+	- call PROVIDE, INIT or START methods after initialization.
+	- call LOADFILES or LOADDIRS methods after initialization. (node only)
 	
-	- **"[iNGector] Start already called!"**. Occurs when you call START method more than once.
+- **"[iNGector] Start already called!"**. Occurs when you call START method more than once.
 
-	- **"[iNGector] Cannot get [DEPENDENCY NAME]. iNGector is not initialized yet!"**. Occurs when you call RESOLVE method before the initialization.
+- **"[iNGector] Cannot get [DEPENDENCY NAME]. iNGector is not initialized yet!"**. Occurs when you call RESOLVE method before the initialization.
 
-	- **"[iNGector] Block [DEPENDENCY NAME] not provided!"**. Occurs when you call RESOLVE method and no part with given name is found.
+- **"[iNGector] Block [DEPENDENCY NAME] not provided!"**. Occurs when you call RESOLVE method and no part with given name is found.
 
 ## Contributing
 iNGector is under [MIT LICENSE](/LICENSE.md). You can use, copy, change, and so on.
