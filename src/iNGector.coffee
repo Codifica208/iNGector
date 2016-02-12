@@ -111,7 +111,7 @@ iNGector = ->
 			_initPromise
 				.then _executeProvideBlocks
 				.catch (error) ->
-					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running configuration blocks: \r\n#{error} \r\n#{error.stack}"
+					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running provide blocks: \r\n#{error} \r\n#{error.stack}"
 				.then _executeInitBlocks
 				.catch (error) ->
 					Promise.reject if error.startsWith? '[iNGector]' then error else "[iNGector] Error running init blocks: \r\n#{error} \r\n#{error.stack}"
