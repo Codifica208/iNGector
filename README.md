@@ -144,11 +144,12 @@ di.provide('mod-a', function() {
 
 There are several ways to achieve that, one is 
 	
-	- Add the START call in a separated file and assure that the SCRIPT tag pointing to this file is always the last one.
+- Add the START call in a separated file and assure that the SCRIPT tag pointing to this file is always the last one.
 
 and another is (our favorite)
 
-	- Using [jQuery Ready](http://api.jquery.com/ready/) function.
+- Using [jQuery Ready](http://api.jquery.com/ready/) function.
+
 	```javascript
 	$(function(){ di.start(); });
 	```
