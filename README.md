@@ -5,11 +5,11 @@ iNGector is a Dependency Injection module inspired by the AngularJS's DI
 
 ### Why another Dependency Injection module?
 
-Because we could not find any other simple and elegant DI module as AngularJS's one, so we took it's style and implemented a promise based simplest version of it.
+As we could not find any other simple and elegant DI module as AngularJS's one, we took its style and implemented a simple promise based version of it.
 
 ## How does it works?
 
-iNGector has two main methods: **provide** and **init**, wich are similar to AngularJS's DI *config* and *run*.
+iNGector has two main methods: **provide** and **init**, which are similar to AngularJS's DI *config* and *run*.
 
 
 #### The PROVIDE method
@@ -18,7 +18,7 @@ This method allows you to serve some implementation that can be requested by oth
 
 It accepts the following arguments:
 
-- **name**: an identifier of the provided implementation
+- **name**: an identifier for the provided implementation
 - **dependencies**: all names of the parts (previously provided) needed by your piece of code
 - **builder function**: a function that will be called to this part. It receives all the declared dependencies as arguments and must return a Promise.
 
@@ -34,12 +34,12 @@ It accepts the following arguments:
 
 #### The INIT method
 
-This method allows you to run a piece of code after all provided implementation is ready to go.
+This method allows you to run a piece of code after all provided implementation is set.
 
 It accepts the following arguments:
 
 - **dependencies**: all names of the parts (previously provided) needed by your piece of code
-- **run function**: a function that will be called after all provided blocks is processed. It also receives all the declared dependencies as arguments.
+- **run function**: a function that will be called after all provided blocks are processed. It also receives all the declared dependencies as arguments.
 
 ```javascript
 .init('my-piece-of-code', function (part) {
@@ -58,20 +58,20 @@ Both PROVIDE and INIT methods can be chained to each other, so you can call them
 .init(function(){...});
 ```
 
-ps.: as you can notice, they do not need to be called in the correct order of dependency needs, iNGector will handle it for you.
+ps.: as you may notice, they do not need to be called in the correct order of dependency needs, iNGector will handle this for you.
 
 
 ### OK, all parts provided and all init blocks registered! Now what?!
 
-#### The START method
+#### The  method
 
 This method tells iNGector that it must prepare and go. This is achieved in three phases:
 	
-1. ChainSolve Phase: solve the dependency chain and queue builder functions in needed order.
-2. ExecuteProvideBlocks Phase: call all builder functions in needed order.
-3. ExecuteInitBlocks Phase: call all run functions.
+1. ChainSolve Phases: solve the dependency chain and queue builder functions in needed order.
+2. ExecuteProvideBlocks Phases: call all builder functions in needed order.
+3. ExecuteInitBlocks Phases: call all run functions.
 
-It accepts no arguments and also returns a Promise that resolves with iNGector instance as result.
+It need no arguments and returns a Promise that resolves with iNGector instance as result.
 
 ```javascript
 .start()
@@ -86,7 +86,8 @@ It accepts no arguments and also returns a Promise that resolves with iNGector i
 
 
 #### The RESOLVE method
-Once iNGector is started, you can call this method to get a piece of code previously provided.
+
+Once iNGector is started, you can call `resolve` method to get a piece of code previously provided.
 
 It accepts the name as the only argument.
 
@@ -102,14 +103,18 @@ It accepts the name as the only argument.
 
 ### Promises
 
-Since iNGector uses Promises and not all browsers supports it natively you may add a SCRIPT tag BEFORE the iNGector one to some Promises implementation.
+Since iNGector uses Promises and not all browsers supports it natively, you may need to add a SCRIPT tag BEFORE the iNGector one to a Promises implementation.
 We recommend you to use A+ [Promisejs](https://www.promisejs.org/).
 
-### Adding in your web application
+### Adding iNGector your web application
 
 1. Download the latest compiled version [here](https://github.com/Codifica208/iNGector/blob/master/dist/iNGector.js). (sorry it is not minified yet)
-2. Add a SCRIPT tag in your page before your implemantations files.
+2. Add a SCRIPT tag in your page before your implementations files.
+3. If you want to support older browsers, add a Promises implementations of your preference
+
 ```html
+<!-- Add to support older browsers
+<script type="text/javascript" src="[path_to_file]/promise.js"></script> -->
 <script type="text/javascript" src="[path_to_file]/iNGector.js"></script>
 <!-- Now all your implementation scripts -->
 <script type="text/javascript" src="[path_to_file]/[some_implementation].js"></script>
@@ -119,7 +124,7 @@ We recommend you to use A+ [Promisejs](https://www.promisejs.org/).
 
 ### Accessing the iNGector instance
 
-When added to a HTML page iNGector declares a global variable named **di** wich is an iNGector instance (we really don't see the point of having two instances of it).
+When added to a HTML page, iNGector declares a global variable named **di** which is an iNGector instance (we really don't see the point of having two instances of it).
 As we know the order of registration (provides and inits) does not count, you can add your implementation scripts in ANY order.
 
 ```javascript
@@ -154,12 +159,12 @@ and another is (our favorite)
 	$(function(){ di.start(); });
 	```
 
-	ps.: note that this code above must be executed only once either and (of course) you'll need to add jQuery to your application.
+	ps.: note that the code above must be executed only once, and (of course) you'll need to add jQuery to your application.
 
 
 ## Usage in Node.js
 
-You can use iNGector in Node.js as well and for this scenario we've prepared some extra features.
+You can use iNGector in Node.js as well. For this scenario, we've prepared some extra features.
 
 ### NPM package
 
@@ -178,8 +183,8 @@ var di = require('ingector')()
 
 ### Extra features
 
-As you may notice we invoked the result of the **require** function.
-This is because our module.exports returns a function that creates an instance of iNGector and then add some new methods to this instance.
+As you may have noticed, we invoke the result of the **require** function.
+This is necessary because our module.exports returns a function that creates an instance of iNGector and then add some new methods to that instance.
 
 #### The LOADFILES method
 
@@ -191,7 +196,7 @@ It accepts files paths as arguments.
 di.loadFiles('/controllers/my-controller', '/config/server');
 ```
 
-In order this to work all loaded files must exports a function wich accepts the iNGector instance as argument.
+In order to **loadFiles** to work, all loaded files must exports a function that accepts the iNGector instance as argument.
 
 ```javascript
 module.exports = function (di) {
@@ -212,8 +217,8 @@ di.loadDirs('/controllers', '/config', '/start');
 #### The SETDIR method
 
 Sometimes you may found yourself having problems of relative path with Node's **require** function.
-To avoid this, people use the **__dirname** variable, wich gives you the current path location, to set the start point of relative paths.
-As iNGector usually in **node_modules** folder, we added this method to allow you to specify this start point.
+To avoid this, it is common to use the **__dirname** variable, which gives you the current path location, in order to set the start point of relative paths.
+As iNGector usually is in **node_modules** folder, we added this method to allow you to specify this start point.
 
 It accepts a path as the only argument.
 
@@ -233,34 +238,34 @@ di.setDir(__dirname + '/src').loadDirs('/controllers', '/config').loadFiles('/st
 
 ## Public methods you may found
 
-If you debbug or read the source code you will find two more public methods.
-Both of them are used in order to achieve some stuff and you probably won't play with them.
+If you debug or read the source code you will find two more public methods.
+Both are used in order to achieve some stuff and you probably won't play with.
 
 #### The CHECKINITIALIZATION method
 
-This method throws an exception if iNGector was not initialized yet.
+This method throws an exception if iNGector is not initialized yet.
 
 #### The PREINIT method
 
-This method is created only when executing in Node.js. It tells to core to load files before the START Phases.
+This method is created only when executing in Node.js. It tells core to load files before the START Phases.
 
 ## Error handling
-And last but not least, iNGector throws exceptions with the following messages:
+Last but not least, iNGector throws exceptions with the following messages:
 
-- **"[iNGector] Error running provide blocks: [ERROR]"**. Occurs whenever an Promise catches and error during ChainSolve Phase or ExecuteProvideBlocks Phase.
+- **"[iNGector] Error running provide blocks: [ERROR]"**. Occurs whenever a Promise catches an error during `ChainSolve Phase` or `ExecuteProvideBlocks Phase`.
 
-- **"[iNGector] Error running init blocks: [ERROR]"**. Occurs whenever an Promise catches and error during ExecuteProvideBlocks Phase.
+- **"[iNGector] Error running init blocks: [ERROR]"**. Occurs whenever a Promise catches and error during `ExecuteProvideBlocks Phase`.
 
-- **"[iNGector] Already initialized!"**. Occurs when you:
-	- call PROVIDE, INIT or START methods after initialization.
-	- call LOADFILES or LOADDIRS methods after initialization. (node only)
+- **"[iNGector] Already initialized!"**. Occurs when:
+	- PROVIDE, INIT or START methods are called after initialization.
+	- LOADFILES or LOADDIRS methods are called after initialization. (node only)
 	
-- **"[iNGector] Start already called!"**. Occurs when you call START method more than once.
+- **"[iNGector] Start already called!"**. Occurs when START method is called more than once.
 
-- **"[iNGector] Cannot get [DEPENDENCY NAME]. iNGector is not initialized yet!"**. Occurs when you call RESOLVE method before the initialization.
+- **"[iNGector] Cannot get [DEPENDENCY NAME]. iNGector is not initialized yet!"**. Occurs when RESOLVE method is called before the initialization.
 
-- **"[iNGector] Block [DEPENDENCY NAME] not provided!"**. Occurs when you call RESOLVE method and no part with given name is found.
+- **"[iNGector] Block [DEPENDENCY NAME] not provided!"**. Occurs when RESOLVE method cannot find any part with given name.
 
 ## Contributing
-iNGector is under [MIT LICENSE](/LICENSE.md). You can use, copy, change, and so on.
-Fell free to open issues, send pull requests with fixes and improvements and sending me messages (why not?).
+iNGector is under [MIT LICENSE](/LICENSE.md). You can use, copy, change and so on.
+Feel free to open issues, send pull requests with fixes and improvements and even send me messages (why not?).
