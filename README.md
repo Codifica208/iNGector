@@ -24,7 +24,7 @@ It accepts the following arguments:
 
 ```javascript
 .provide('my-piece-of-code', 'some-dependency', 'some-other-dependency', function (){
-	Promise.resolve({
+	return Promise.resolve({
 		showMessage: function(message) {
 			alert(message);
 		}
