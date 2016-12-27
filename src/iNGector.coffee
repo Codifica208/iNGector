@@ -14,7 +14,7 @@ iNGector = ->
 			i.visited = true
 			for j in i.dependencies or []
 				d = (items.filter (s) -> s.name is j)[0]
-				
+
 				throw "Dependency not found (#{j})" if not d?
 
 				visit d
@@ -28,14 +28,14 @@ iNGector = ->
 	_executeProvideBlocks = ->
 		new Promise (resolve, reject) ->
 			_provideChain = []
-			
+
 			for name, block of _provideBlocks
 				_provideChain.push
 					name: name
 					dependencies: block.dependencies
 
 			_orderedChain = _orderChain _provideChain
-			
+
 			_configPromise = do Promise.resolve
 			for block in _orderedChain
 				_configPromise = _configPromise.then ((blockName) ->
@@ -61,7 +61,7 @@ iNGector = ->
 					_dependency = _provideBlocks[d]
 					throw "Dependency not found (#{d})" if not _dependency?
 					_dependencies.push _dependency.result
-				
+
 				_promises.push block.func.apply block, _dependencies
 
 			Promise
@@ -93,7 +93,7 @@ iNGector = ->
 	@resolve = (name) ->
 		throw "[iNGector] Cannot get #{name}. iNGector is not initialized yet!" if not _initialized
 		throw "[iNGector] Block #{name} not provided!" if not _provideBlocks[name]
-		
+
 		_provideBlocks[name].result
 
 	@start = ->
@@ -101,11 +101,11 @@ iNGector = ->
 			do _self.checkInitialization
 			throw '[iNGector] Start already called!' if _startCalled
 			do resolve
-		
+
 		_checkPromise.then ->
 			_startCalled = yes
-		
-			_initPromise = do Promise.resolve 
+
+			_initPromise = do Promise.resolve
 			_initPromise = do _self.preInit if _self.preInit?
 
 			_initPromise
@@ -131,13 +131,18 @@ else
 		_di = new iNGector
 
 		_loadPromise = do Promise.resolve
-		
+
 		_createFilePromise = (file) ->
 			new Promise (resolve, reject) ->
-				module = require "#{_baseDir}/#{file}"
-				module _di
-
-				do resolve
+				fs.stat file, (erro, stats) ->
+					if error.code
+						reject error
+					else if not stats.isDirectory()
+						module = require "#{_baseDir}/#{file}"
+						module _di
+						do resolve
+					return
+				return
 
 		_loadFile = (file) ->
 			->
