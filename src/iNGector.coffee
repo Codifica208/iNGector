@@ -135,7 +135,7 @@ else
 		_createFilePromise = (file) ->
 			new Promise (resolve, reject) ->
 				fs.stat file, (error, stats) ->
-					if not error.code and not stats.isDirectory()
+					if not error?.code and not stats.isDirectory()
 						module = require "#{_baseDir}/#{file}"
 						module _di
 
