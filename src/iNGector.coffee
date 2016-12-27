@@ -140,7 +140,8 @@ else
 					else if not stats.isDirectory()
 						module = require "#{_baseDir}/#{file}"
 						module _di
-						do resolve
+
+					do resolve
 					return
 				return
 
