@@ -182,9 +182,7 @@
         return new Promise(function(resolve, reject) {
           fs.stat(file, function(error, stats) {
             var module;
-            if (error.code) {
-              reject(error);
-            } else if (!stats.isDirectory()) {
+            if (!error.code && !stats.isDirectory()) {
               module = require(_baseDir + "/" + file);
               module(_di);
             }
