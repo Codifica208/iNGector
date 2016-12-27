@@ -1,6 +1,6 @@
 {
   "name": "ingector",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "iNGector is a Dependency Injection module inspired by the AngularJS's DI",
   "main": "dist/iNGector.js",
   "files": [
