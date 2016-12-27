@@ -134,7 +134,7 @@ else
 
 		_createFilePromise = (file) ->
 			new Promise (resolve, reject) ->
-				fs.stat file, (erro, stats) ->
+				fs.stat file, (error, stats) ->
 					if error.code
 						reject error
 					else if not stats.isDirectory()

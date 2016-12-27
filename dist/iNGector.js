@@ -180,7 +180,7 @@
       _loadPromise = Promise.resolve();
       _createFilePromise = function(file) {
         return new Promise(function(resolve, reject) {
-          fs.stat(file, function(erro, stats) {
+          fs.stat(file, function(error, stats) {
             var module;
             if (error.code) {
               reject(error);
